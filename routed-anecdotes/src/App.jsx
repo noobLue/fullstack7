@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route, Link, useParams } from 'react-router-dom' 
+import { BrowserRouter, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom' 
 
 const Menu = () => {
   const padding = {
@@ -12,6 +12,13 @@ const Menu = () => {
       <Link to='/about' style={padding}>about</Link>
     </div>
   )
+}
+
+const Notification = ({notification}) => {
+  const style = notification.content ? { padding: 5, border: 'solid 3px black' } : {display: 'none'}
+  return (<div style={style}>
+    {notification.content}
+  </div>)
 }
 
 const AnecdoteList = ({ anecdotes }) => (
@@ -61,6 +68,7 @@ const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
+  const navigate = useNavigate()
 
 
   const handleSubmit = (e) => {
@@ -71,6 +79,8 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+
+    navigate('/')
   }
 
   return (
@@ -114,11 +124,24 @@ const App = () => {
     }
   ])
 
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState({content: '', timeoutId: -1})
+
+  const handleNotification = (content) => {
+    if(notification.timeoutId !== -1) 
+      clearTimeout(notification.timeoutId)
+
+    const timeoutId = setTimeout(()=>{
+      setNotification({content: '', timeoutId: -1})
+    }, 5000)
+    setNotification({content, timeoutId})
+  }
+
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+
+    handleNotification(`a new anecdote ${anecdote.content} created!`)
   }
 
   const anecdoteById = (id) =>
@@ -135,14 +158,12 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
-  // <CreateNew addNew={addNew} />
-  // <AnecdoteList anecdotes={anecdotes} />
-  // <About />
 
   return (
     <BrowserRouter>
       <h1>Software anecdotes</h1>
       <Menu />
+      <Notification notification={notification}/>
       
       <Routes>
         <Route path='/create' element={<CreateNew addNew={addNew}/>}/>
