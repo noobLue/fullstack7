@@ -1,40 +1,40 @@
-import { useState } from "react";
+import { useState } from 'react'
 
 const FormValue = ({ label, name, value, setValue }) => {
   const onChangeHelper = (func) => {
     return ({ target }) => {
-      func(target.value);
-    };
-  };
+      func(target.value)
+    }
+  }
 
   return (
     <div>
-      {label}{" "}
+      {label}{' '}
       <input
         type="text"
         name={name}
         value={value}
         onChange={onChangeHelper(setValue)}
-      ></input>{" "}
+      ></input>{' '}
       <br />
     </div>
-  );
-};
+  )
+}
 
 const BlogForm = ({ createBlog }) => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [url, setUrl] = useState("");
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
   const handleBlog = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    await createBlog({ title, author, url });
+    await createBlog({ title, author, url })
 
-    setTitle("");
-    setAuthor("");
-    setUrl("");
-  };
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
 
   return (
     <form className="blogForm" onSubmit={handleBlog}>
@@ -61,7 +61,7 @@ const BlogForm = ({ createBlog }) => {
       ></FormValue>
       <button type="submit">submit</button>
     </form>
-  );
-};
+  )
+}
 
-export default BlogForm;
+export default BlogForm
