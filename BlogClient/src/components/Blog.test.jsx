@@ -21,21 +21,13 @@ describe('<Blog />', () => {
     user,
   }
 
-  const getExtraInfo = (container) =>
-    container.querySelector('.blog > div[name="ExtraBlogInfo"]')
+  const getExtraInfo = (container) => container.querySelector('.blog > div[name="ExtraBlogInfo"]')
 
   beforeEach(() => {
     mockAddLikes = vi.fn()
     const removeBlog = () => {}
 
-    container = render(
-      <Blog
-        blog={blog}
-        user={user}
-        addLike={mockAddLikes}
-        removeBlog={removeBlog}
-      />
-    ).container
+    container = render(<Blog blog={blog} user={user} addLike={mockAddLikes} removeBlog={removeBlog} />).container
   })
 
   test('at start renders content', () => {

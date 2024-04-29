@@ -116,10 +116,7 @@ describe('favorite blog', () => {
       author: listWithOneBlog[0].author,
       likes: listWithOneBlog[0].likes,
     }
-    assert.deepStrictEqual(
-      listHelper.favoriteBlog(listWithOneBlog),
-      rightResult
-    )
+    assert.deepStrictEqual(listHelper.favoriteBlog(listWithOneBlog), rightResult)
   })
 
   test('of multiple element list has the highest likes', () => {

@@ -17,8 +17,7 @@ userRouter.post('/', async (req, res) => {
 
   const pwLen = 3
 
-  if (!password)
-    return res.status(400).json({ error: '`password` is required' })
+  if (!password) return res.status(400).json({ error: '`password` is required' })
   if (password.length < 3)
     return res.status(400).json({
       error: `\`password\`is shorter than the minimum allowed length (${pwLen})`,

@@ -13,10 +13,7 @@ const errorHandler = (err, req, res, next) => {
   }
   if (err.name === 'ValidationError') {
     return res.status(400).json({ error: err.message })
-  } else if (
-    err.name === 'MongoServerError' &&
-    err.message.includes('E11000 duplicate key error collection')
-  ) {
+  } else if (err.name === 'MongoServerError' && err.message.includes('E11000 duplicate key error collection')) {
     return res.status(400).json({ error: 'username must be unique' })
   } else if (err.name === 'JsonWebTokenError') {
     return res.status(400).json({ error: 'token missing or invalid' })
@@ -29,8 +26,7 @@ const errorHandler = (err, req, res, next) => {
 
 const tokenExtractor = (req, res, next) => {
   const auth = req.get('authorization')
-  req.token =
-    auth && auth.startsWith('Bearer ') ? auth.replace('Bearer ', '') : null
+  req.token = auth && auth.startsWith('Bearer ') ? auth.replace('Bearer ', '') : null
 
   next()
 }

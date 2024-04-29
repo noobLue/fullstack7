@@ -216,10 +216,7 @@ describe('When some blogs exist', async () => {
       const res = await api.get('/api/users')
       const users = res.body
 
-      assert.strictEqual(
-        users[users.length - 1].blogs.length,
-        oldUsers[oldUsers.length - 1].blogs.length + 1
-      )
+      assert.strictEqual(users[users.length - 1].blogs.length, oldUsers[oldUsers.length - 1].blogs.length + 1)
 
       const myBlogs = users[users.length - 1].blogs
       assert.strictEqual(myBlogs[myBlogs.length - 1].id, resBlog.body.id)

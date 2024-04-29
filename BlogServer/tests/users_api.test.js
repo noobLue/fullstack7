@@ -82,10 +82,7 @@ describe('When there is already a user in the database', async () => {
     const newUsers = await testHelper.getUsers()
 
     assert.strictEqual(newUsers.length, existingUsers.length)
-    assert.deepStrictEqual(
-      newUsers[newUsers.length - 1],
-      existingUsers[existingUsers.length - 1]
-    )
+    assert.deepStrictEqual(newUsers[newUsers.length - 1], existingUsers[existingUsers.length - 1])
     assert(res.body.error.includes('username must be unique'))
   })
 
@@ -103,10 +100,7 @@ describe('When there is already a user in the database', async () => {
     const newUsers = await testHelper.getUsers()
 
     assert.strictEqual(newUsers.length, existingUsers.length)
-    assert.deepStrictEqual(
-      newUsers[newUsers.length - 1],
-      existingUsers[existingUsers.length - 1]
-    )
+    assert.deepStrictEqual(newUsers[newUsers.length - 1], existingUsers[existingUsers.length - 1])
     assert(res.body.error.includes('`user` is required'))
   })
 
@@ -124,10 +118,7 @@ describe('When there is already a user in the database', async () => {
     const newUsers = await testHelper.getUsers()
 
     assert.strictEqual(newUsers.length, existingUsers.length)
-    assert.deepStrictEqual(
-      newUsers[newUsers.length - 1],
-      existingUsers[existingUsers.length - 1]
-    )
+    assert.deepStrictEqual(newUsers[newUsers.length - 1], existingUsers[existingUsers.length - 1])
     assert(res.body.error.includes('`password` is required'))
   })
 
@@ -164,13 +155,8 @@ describe('When there is already a user in the database', async () => {
     const newUsers = await testHelper.getUsers()
 
     assert.strictEqual(newUsers.length, existingUsers.length)
-    assert.deepStrictEqual(
-      newUsers[newUsers.length - 1],
-      existingUsers[existingUsers.length - 1]
-    )
-    assert(
-      res.body.error.includes('is shorter than the minimum allowed length (')
-    )
+    assert.deepStrictEqual(newUsers[newUsers.length - 1], existingUsers[existingUsers.length - 1])
+    assert(res.body.error.includes('is shorter than the minimum allowed length ('))
   })
 
   test('password of length is accepted', async () => {
@@ -210,13 +196,8 @@ describe('When there is already a user in the database', async () => {
     const newUsers = await testHelper.getUsers()
 
     assert.strictEqual(newUsers.length, existingUsers.length)
-    assert.deepStrictEqual(
-      newUsers[newUsers.length - 1],
-      existingUsers[existingUsers.length - 1]
-    )
-    assert(
-      res.body.error.includes('is shorter than the minimum allowed length (')
-    )
+    assert.deepStrictEqual(newUsers[newUsers.length - 1], existingUsers[existingUsers.length - 1])
+    assert(res.body.error.includes('is shorter than the minimum allowed length ('))
   })
 
   test('user has blogs array ', async () => {

@@ -25,13 +25,7 @@ const ErrorMessage = (error) => {
   )
 }
 
-const LoginForm = (
-  handleLogin,
-  username,
-  password,
-  setUsername,
-  setPassword
-) => {
+const LoginForm = (handleLogin, username, password, setUsername, setPassword) => {
   return (
     <form onSubmit={handleLogin}>
       <div>
@@ -64,27 +58,13 @@ const Blogs = (user, blogs, addLike, removeBlog) => {
   return (
     <div>
       {blogs.map((blog) => (
-        <Blog
-          key={blog.id}
-          blog={blog}
-          user={user}
-          addLike={addLike}
-          removeBlog={removeBlog}
-        />
+        <Blog key={blog.id} blog={blog} user={user} addLike={addLike} removeBlog={removeBlog} />
       ))}
     </div>
   )
 }
 
-const UserBlog = (
-  user,
-  setUser,
-  blogs,
-  createBlog,
-  addLike,
-  removeBlog,
-  blogFormRef
-) => {
+const UserBlog = (user, setUser, blogs, createBlog, addLike, removeBlog, blogFormRef) => {
   const logout = (input) => {
     window.localStorage.removeItem('loggedBlogAppUser')
     setUser(null)
@@ -95,11 +75,7 @@ const UserBlog = (
       <p>
         {user.name} logged in <button onClick={logout}>Logout</button>
       </p>
-      <Toggleable
-        startVisible={false}
-        buttonLabel={'Add blog'}
-        ref={blogFormRef}
-      >
+      <Toggleable startVisible={false} buttonLabel={'Add blog'} ref={blogFormRef}>
         <h3>Create new blog</h3>
         <BlogForm createBlog={createBlog} />
       </Toggleable>
@@ -204,15 +180,7 @@ const App = () => {
       {ErrorMessage(error)}
       {user === null
         ? LoginForm(handleLogin, username, password, setUsername, setPassword)
-        : UserBlog(
-            user,
-            setUser,
-            blogs,
-            createBlog,
-            addLike,
-            removeBlog,
-            blogFormRef
-          )}
+        : UserBlog(user, setUser, blogs, createBlog, addLike, removeBlog, blogFormRef)}
     </div>
   )
 }

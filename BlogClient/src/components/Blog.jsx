@@ -26,11 +26,7 @@ const Blog = ({ blog, user, addLike, removeBlog }) => {
   const handleRemoveBlog = async (e) => {
     e.preventDefault()
 
-    if (
-      window.confirm(
-        `Do you want to remove blog '${blog.title}' by '${blog.author}'`
-      )
-    ) {
+    if (window.confirm(`Do you want to remove blog '${blog.title}' by '${blog.author}'`)) {
       await removeBlog({ ...blog, user: blog.user.id })
     }
   }
@@ -46,8 +42,7 @@ const Blog = ({ blog, user, addLike, removeBlog }) => {
       }}
     >
       <div className="blogTitleAuthor">
-        {blog.title} - {blog.author}{' '}
-        <button onClick={handleVisibility}>{buttonText}</button>
+        {blog.title} - {blog.author} <button onClick={handleVisibility}>{buttonText}</button>
       </div>
       <div name="ExtraBlogInfo" style={{ display: visible ? '' : 'none' }}>
         <div>{blog.url}</div>
