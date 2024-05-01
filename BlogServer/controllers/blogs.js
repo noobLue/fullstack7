@@ -47,8 +47,8 @@ blogsRouter.delete('/:id', async (req, res) => {
     return res.status(401).json({ error: 'user does not match blog owner' })
   }
 
-  await Blog.findByIdAndDelete(blogId)
-  res.status(204).end()
+  const oldBlog = await Blog.findByIdAndDelete(blogId)
+  res.status(201).json(oldBlog)
 })
 
 blogsRouter.put('/:id', async (req, res) => {
@@ -60,14 +60,6 @@ blogsRouter.put('/:id', async (req, res) => {
     likes: req.body.likes,
     user: req.body.user,
   }
-
-  const oldBlog = await Blog.findById(id)
-
-  // Removed so users can like other users blogs
-  /*if(!req.user || oldBlog.user.toString() !== req.user.toString())
-    {
-        return res.status(401).json({error: 'user does not match blog owner'})
-    }*/
 
   const settings = { new: true, runValidators: true, context: 'query' }
 
