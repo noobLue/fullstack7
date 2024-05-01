@@ -6,10 +6,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { initBlogs, postBlog, putBlog, removeBlog } from './reducers/blogReducer'
 import { initUser, resetUser, setUser } from './reducers/userReducer'
 
+const blogSorter = (a, b) => {
+  if (a.likes === b.likes) return 0
+  return a.likes < b.likes ? 1 : -1
+}
+
 const App = () => {
   const dispatch = useDispatch()
   const error = useSelector(({ notification }) => notification.content)
-  const blogs = useSelector(({ blogs }) => blogs)
+  const blogs = useSelector(({ blogs }) => [...blogs].sort(blogSorter))
   const user = useSelector(({ user }) => user)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
