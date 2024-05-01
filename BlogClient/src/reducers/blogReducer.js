@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import blogService from '../services/blogs'
+import { setNotification } from './notificationReducer'
 
 const initialState = []
 
@@ -36,22 +37,38 @@ export const initBlogs = () => {
 
 export const postBlog = (blog) => {
   return async (dispatch) => {
-    const data = await blogService.postBlog(blog)
-    dispatch(addBlog(data))
+    try {
+      const data = await blogService.postBlog(blog)
+      dispatch(addBlog(data))
+
+      dispatch(setNotification(`Added a new blog '${blog.title}' by '${blog.author}'`))
+    } catch (exception) {
+      dispatch(setNotification('Failed to add new blog'))
+    }
   }
 }
 
 export const putBlog = (blog) => {
   return async (dispatch) => {
-    const data = await blogService.putBlog(blog)
-    dispatch(editBlog(data))
+    try {
+      const data = await blogService.putBlog(blog)
+      dispatch(editBlog(data))
+    } catch (exception) {
+      dispatch(setNotification('Failed to make changes to blog'))
+    }
   }
 }
 
 export const removeBlog = (blog) => {
   return async (dispatch) => {
-    const data = await blogService.deleteBlog(blog)
-    dispatch(deleteBlog(data))
+    try {
+      const data = await blogService.deleteBlog(blog)
+      dispatch(deleteBlog(data))
+
+      dispatch(setNotification(`Removed blog '${data.title}' by '${data.author}'`))
+    } catch (exception) {
+      dispatch(setNotification('Failed to remove blog'))
+    }
   }
 }
 
