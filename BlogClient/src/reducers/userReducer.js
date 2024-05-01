@@ -4,7 +4,7 @@ import loginService from '../services/login'
 import { setNotification } from './notificationReducer'
 
 const initialState = null
-let userStorageKey = 'loggedBlogAppUser'
+const userStorageKey = 'loggedBlogAppUser'
 
 const userSlice = createSlice({
   name: 'user',
@@ -26,8 +26,8 @@ export const initUser = () => {
     const loggedUserJSON = window.localStorage.getItem(userStorageKey)
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-
       blogService.setToken(user.token)
+
       dispatch(setUserRe(user))
     }
   }
@@ -37,9 +37,7 @@ export const setUser = (username, password) => {
   return async (dispatch) => {
     try {
       const user = await loginService.login({ username, password })
-
       window.localStorage.setItem(userStorageKey, JSON.stringify(user))
-
       blogService.setToken(user.token)
 
       dispatch(setUserRe(user))

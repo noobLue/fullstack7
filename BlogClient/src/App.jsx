@@ -22,7 +22,7 @@ const App = () => {
     dispatch(initUser())
   }, [])
 
-  const handleLogin = async (e) => {
+  const handleLogin = (e) => {
     e.preventDefault()
 
     setUsername('')
@@ -31,16 +31,16 @@ const App = () => {
     dispatch(setUser(username, password))
   }
 
-  const createBlog = async (blog) => {
+  const createBlog = (blog) => {
     blogFormRef.current.toggleVisibility(false)
     dispatch(postBlog(blog))
   }
 
-  const addLike = async (blog) => {
+  const addLike = (blog) => {
     dispatch(putBlog(blog))
   }
 
-  const handleRemoveBlog = async (blog) => {
+  const handleRemoveBlog = (blog) => {
     dispatch(removeBlog(blog))
   }
 
