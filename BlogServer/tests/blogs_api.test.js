@@ -344,13 +344,24 @@ describe('When some blogs exist', async () => {
       await api
         .delete(`/api/blogs/${lastBlog.id}`)
         .set('Authorization', `Bearer ${await testHelper.getInitialToken()}`)
-        .expect(204)
+        .expect(201)
 
       const blogsAfter = await testHelper.getBlogs()
       assert.strictEqual(blogsAfter.length, blogs.length - 1)
 
       const idsAfter = blogsAfter.map((b) => b.id)
       assert(!idsAfter.includes(lastBlog.id))
+    })
+
+    test('delete returns blog info', async () => {
+      const blogs = await testHelper.getBlogs()
+      const lastBlog = blogs[blogs.length - 1]
+      const res = await api
+        .delete(`/api/blogs/${lastBlog.id}`)
+        .set('Authorization', `Bearer ${await testHelper.getInitialToken()}`)
+        .expect(201)
+
+      assert.strictEqual(res.body.id, lastBlog.id)
     })
 
     test('cant delete a blog without authentication', async () => {
@@ -388,23 +399,25 @@ describe('When some blogs exist', async () => {
       assert.notStrictEqual(blogsAfter[0].likes, firstBlog.likes)
     })
 
-    test('cant update a blog without authentication', async () => {
+    test('can like a blog', async () => {
       const blogs = await testHelper.getBlogs()
       const firstBlog = blogs[0]
 
+      const likes = firstBlog.likes + 1
+
       const newBlog = {
         ...firstBlog,
-        likes: 99,
+        likes,
       }
 
-      await api.put(`/api/blogs/${firstBlog.id}`).send(newBlog).expect(401)
+      await api.put(`/api/blogs/${firstBlog.id}`).send(newBlog).expect(201)
 
       const blogsAfter = await testHelper.getBlogs()
 
       assert.strictEqual(blogsAfter.length, blogs.length)
 
-      assert.notStrictEqual(blogsAfter[0].likes, 99)
-      assert.strictEqual(blogsAfter[0].likes, firstBlog.likes)
+      assert.strictEqual(blogsAfter[0].likes, likes)
+      assert.notStrictEqual(blogsAfter[0].likes, firstBlog.likes)
     })
 
     test('put returns user info in blog', async () => {
