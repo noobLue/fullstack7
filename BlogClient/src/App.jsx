@@ -4,6 +4,8 @@ import BlogForm from './components/BlogForm'
 import Toggleable from './components/Toggleable'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetNotification, setNotification } from './reducers/notificationReducer'
 
 const ErrorMessage = (error) => {
   if (!error) return <div></div>
@@ -86,7 +88,8 @@ const UserBlog = (user, setUser, blogs, createBlog, addLike, removeBlog, blogFor
 }
 
 const App = () => {
-  const [error, setError] = useState(null)
+  const dispatch = useDispatch()
+  const error = useSelector(({ notification }) => notification.content)
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -115,12 +118,14 @@ const App = () => {
     }
   }, [])
 
-  const handleMessage = async (message) => {
+  const handleMessage = async (content) => {
     // TODO: save timeout so multiple timeouts at the same time can be prevented?
-    setError(message)
-    setTimeout(() => {
-      setError(null)
-    }, 4000)
+
+    const timeoutId = setTimeout(() => {
+      dispatch(resetNotification())
+    }, 5000)
+
+    dispatch(setNotification({ timeoutId, content }))
   }
 
   const handleLogin = async (e) => {
