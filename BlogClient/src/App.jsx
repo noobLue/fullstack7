@@ -5,7 +5,8 @@ import Toggleable from './components/Toggleable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetNotification, setNotification } from './reducers/notificationReducer'
+import { setNotification } from './reducers/notificationReducer'
+import { initBlogs, postBlog, putBlog, removeBlog } from './reducers/blogReducer'
 
 const ErrorMessage = (error) => {
   if (!error) return <div></div>
@@ -90,7 +91,7 @@ const UserBlog = (user, setUser, blogs, createBlog, addLike, removeBlog, blogFor
 const App = () => {
   const dispatch = useDispatch()
   const error = useSelector(({ notification }) => notification.content)
-  const [blogs, setBlogs] = useState([])
+  const blogs = useSelector(({ blogs }) => blogs)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -98,14 +99,7 @@ const App = () => {
   const blogFormRef = useRef()
 
   useEffect(() => {
-    blogService.getAll().then((blogs) =>
-      setBlogs(
-        blogs.sort((a, b) => {
-          if (a.likes === b.likes) return 0
-          return a.likes < b.likes ? 1 : -1
-        })
-      )
-    )
+    dispatch(initBlogs())
   }, [])
 
   useEffect(() => {
@@ -121,11 +115,7 @@ const App = () => {
   const handleMessage = async (content) => {
     // TODO: save timeout so multiple timeouts at the same time can be prevented?
 
-    const timeoutId = setTimeout(() => {
-      dispatch(resetNotification())
-    }, 5000)
-
-    dispatch(setNotification({ timeoutId, content }))
+    dispatch(setNotification(content))
   }
 
   const handleLogin = async (e) => {
@@ -147,11 +137,10 @@ const App = () => {
 
   const createBlog = async (blog) => {
     try {
-      const res = await blogService.postBlog(blog)
-      setBlogs(blogs.concat(res))
+      dispatch(postBlog(blog))
       blogFormRef.current.toggleVisibility(false)
 
-      handleMessage(`Added a new blog '${res.title}' by '${res.author}'`)
+      handleMessage(`Added a new blog '${blog.title}' by '${blog.author}'`)
     } catch (exception) {
       handleMessage('Failed to add new blog')
     }
@@ -159,19 +148,15 @@ const App = () => {
 
   const addLike = async (blog) => {
     try {
-      const res = await blogService.putBlog(blog)
-
-      setBlogs(blogs.map((b) => (b.id === res.id ? res : b)))
+      dispatch(putBlog(blog))
     } catch (exception) {
       handleMessage('Failed to add like')
     }
   }
 
-  const removeBlog = async (blog) => {
+  const handleRemoveBlog = async (blog) => {
     try {
-      // TODO: should res contain deleted blog?
-      const res = await blogService.deleteBlog(blog)
-      setBlogs(blogs.filter((b) => b.id !== blog.id))
+      dispatch(removeBlog(blog))
 
       handleMessage(`Removed blog '${blog.title}' by '${blog.author}'`)
     } catch (exception) {
@@ -185,7 +170,7 @@ const App = () => {
       {ErrorMessage(error)}
       {user === null
         ? LoginForm(handleLogin, username, password, setUsername, setPassword)
-        : UserBlog(user, setUser, blogs, createBlog, addLike, removeBlog, blogFormRef)}
+        : UserBlog(user, setUser, blogs, createBlog, addLike, handleRemoveBlog, blogFormRef)}
     </div>
   )
 }
