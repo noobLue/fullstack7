@@ -20,13 +20,13 @@ const Blog = ({ blog, user, addLike, removeBlog }) => {
   const handleLike = async (e) => {
     e.preventDefault()
 
-    await addLike({ ...blog, user: blog.user.id, likes: blog.likes + 1 })
+    if (user) await addLike({ ...blog, user: blog.user.id, likes: blog.likes + 1 })
   }
 
   const handleRemoveBlog = async (e) => {
     e.preventDefault()
 
-    if (window.confirm(`Do you want to remove blog '${blog.title}' by '${blog.author}'`)) {
+    if (user && window.confirm(`Do you want to remove blog '${blog.title}' by '${blog.author}'`)) {
       await removeBlog({ ...blog, user: blog.user.id })
     }
   }
@@ -47,10 +47,10 @@ const Blog = ({ blog, user, addLike, removeBlog }) => {
       <div name="ExtraBlogInfo" style={{ display: visible ? '' : 'none' }}>
         <div>{blog.url}</div>
         <div className="blogLikes">
-          likes: {blog.likes} <button onClick={handleLike}>like</button>
+          likes: {blog.likes} {user && <button onClick={handleLike}>like</button>}
         </div>
         <div>uploaded by: {blog.user.name}</div>
-        {blog.user.user === user.username && removeButton(handleRemoveBlog)}
+        {user && blog.user.user === user.username && removeButton(handleRemoveBlog)}
       </div>
     </div>
   )
