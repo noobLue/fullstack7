@@ -59,11 +59,13 @@ export const putBlog = (blog) => {
   }
 }
 
-export const removeBlog = (blog) => {
+export const removeBlog = (blog, deleteCallback) => {
   return async (dispatch) => {
     try {
       const data = await blogService.deleteBlog(blog)
       dispatch(deleteBlog(data))
+
+      deleteCallback(data)
 
       dispatch(setNotification(`Removed blog '${data.title}' by '${data.author}'`))
     } catch (exception) {

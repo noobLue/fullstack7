@@ -23,14 +23,6 @@ const Blogs = ({ user }) => {
     dispatch(postBlog(blog))
   }
 
-  const addLike = (blog) => {
-    dispatch(putBlog(blog))
-  }
-
-  const handleRemoveBlog = (blog) => {
-    dispatch(removeBlog(blog))
-  }
-
   const renderBlogForm = () => {
     return (
       <Toggleable startVisible={false} buttonLabel={'Add blog'} ref={blogFormRef}>
@@ -48,7 +40,7 @@ const Blogs = ({ user }) => {
         {user && renderBlogForm()}
         <h3>Blogs list</h3>
         {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} user={user} addLike={addLike} removeBlog={handleRemoveBlog} />
+          <Blog key={blog.id} blog={blog} user={user} deleteCallback={(data) => {}} enableHide={true} />
         ))}
       </div>
     </div>

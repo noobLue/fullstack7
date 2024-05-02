@@ -10,6 +10,7 @@ import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
 import UsersView from './components/UsersView'
 import UserView from './components/UserView'
+import BlogView from './components/BlogView'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/login" element={<LoginForm />}></Route>
         <Route path="/users/:id" element={<UserView users={users} user={user} />}></Route>
         <Route path="/users" element={<UsersView users={users} user={user} />}></Route>
+        <Route path="/blogs/:id" element={<BlogView user={user} />}></Route>
         <Route path="/" element={<Blogs user={user} />}></Route>
       </Routes>
     </Router>

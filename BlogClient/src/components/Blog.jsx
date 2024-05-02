@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { putBlog, removeBlog } from '../reducers/blogReducer'
 
-const removeButton = (handleRemoveBlog) => {
-  return <button onClick={handleRemoveBlog}>delete</button>
-}
-
-const Blog = ({ blog, user, addLike, removeBlog }) => {
-  const [visible, setVisible] = useState(false)
+const Blog = ({ blog, user, deleteCallback, enableHide }) => {
+  const dispatch = useDispatch()
+  const [visible, setVisible] = useState(enableHide ? false : true)
   const [buttonText, setButtonText] = useState('show')
 
   useEffect(() => {
@@ -17,18 +17,39 @@ const Blog = ({ blog, user, addLike, removeBlog }) => {
     setVisible(!visible)
   }
 
-  const handleLike = async (e) => {
-    e.preventDefault()
-
-    if (user) await addLike({ ...blog, user: blog.user.id, likes: blog.likes + 1 })
-  }
-
   const handleRemoveBlog = async (e) => {
     e.preventDefault()
 
     if (user && window.confirm(`Do you want to remove blog '${blog.title}' by '${blog.author}'`)) {
-      await removeBlog({ ...blog, user: blog.user.id })
+      dispatch(removeBlog({ ...blog, user: blog.user.id }, deleteCallback))
     }
+  }
+
+  const handleLike = async (e) => {
+    e.preventDefault()
+
+    if (user) {
+      dispatch(putBlog({ ...blog, user: blog.user.id, likes: blog.likes + 1 }))
+    }
+  }
+
+  const hiddenTitle = () => {
+    return (
+      <div>
+        <Link to={`/blogs/${blog.id}`}>
+          {blog.title} - {blog.author}
+        </Link>{' '}
+        <button onClick={handleVisibility}>{buttonText}</button>
+      </div>
+    )
+  }
+
+  const normalTitle = () => {
+    return (
+      <h3>
+        {blog.title} - {blog.author}
+      </h3>
+    )
   }
 
   return (
@@ -41,16 +62,14 @@ const Blog = ({ blog, user, addLike, removeBlog }) => {
         borderWidth: '1px',
       }}
     >
-      <div className="blogTitleAuthor">
-        {blog.title} - {blog.author} <button onClick={handleVisibility}>{buttonText}</button>
-      </div>
+      <div className="blogTitleAuthor">{enableHide ? hiddenTitle() : normalTitle()}</div>
       <div name="ExtraBlogInfo" style={{ display: visible ? '' : 'none' }}>
         <div>{blog.url}</div>
         <div className="blogLikes">
           likes: {blog.likes} {user && <button onClick={handleLike}>like</button>}
         </div>
         <div>uploaded by: {blog.user.name}</div>
-        {user && blog.user.user === user.username && removeButton(handleRemoveBlog)}
+        {user && blog.user.user === user.username && <button onClick={handleRemoveBlog}>delete</button>}
       </div>
     </div>
   )
