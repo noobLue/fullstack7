@@ -13,22 +13,12 @@ const blogSorter = (a, b) => {
   return a.likes < b.likes ? 1 : -1
 }
 
-const Blogs = () => {
+const Blogs = ({ user }) => {
   const dispatch = useDispatch()
   const blogFormRef = useRef()
 
   const blogSelect = useSelector(({ blogs }) => blogs)
   const blogs = [...blogSelect].sort(blogSorter)
-  const user = useSelector(({ user }) => user)
-
-  // TODO: Doesn't work, user is null on first render
-  /*
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (!user) navigate('/login')
-  }, [user])
-  */
 
   const createBlog = (blog) => {
     blogFormRef.current.toggleVisibility(false)
@@ -42,14 +32,6 @@ const Blogs = () => {
   const handleRemoveBlog = (blog) => {
     dispatch(removeBlog(blog))
   }
-
-  /*if (!user) {
-    return (
-      <div>
-        If the login page doesn&apos;t load, navigate there manually <Link to="/login">Login page</Link>
-      </div>
-    )
-  }*/
 
   const renderBlogForm = () => {
     return (

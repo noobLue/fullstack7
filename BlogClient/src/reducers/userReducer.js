@@ -33,7 +33,7 @@ export const initUser = () => {
   }
 }
 
-export const setUser = (username, password) => {
+export const setUser = (username, password, callback) => {
   return async (dispatch) => {
     try {
       const user = await loginService.login({ username, password })
@@ -41,6 +41,8 @@ export const setUser = (username, password) => {
       blogService.setToken(user.token)
 
       dispatch(setUserRe(user))
+
+      callback()
     } catch (exception) {
       dispatch(setNotification('Credentials were wrong'))
     }

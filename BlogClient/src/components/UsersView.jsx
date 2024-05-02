@@ -1,27 +1,19 @@
-import { useEffect, useState } from 'react'
-import userService from '../services/users'
+import { Link } from 'react-router-dom'
 import LoginHeader from './LoginHeader'
 import { useSelector } from 'react-redux'
 
 const UserInfo = ({ user }) => {
   return (
     <tr>
-      <th>{user.name}</th>
+      <th>
+        <Link to={`/users/${user.id}`}>{user.name}</Link>
+      </th>
       <th>{user.blogs.length}</th>
     </tr>
   )
 }
 
-const UsersView = () => {
-  const [users, setUsers] = useState([])
-  const user = useSelector(({ user }) => user)
-
-  useEffect(() => {
-    userService.getAll().then((users) => {
-      setUsers(users)
-    })
-  }, [])
-
+const UsersView = ({ users, user }) => {
   return (
     <div>
       <LoginHeader user={user}></LoginHeader>

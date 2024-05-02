@@ -17,8 +17,7 @@ const LoginForm = () => {
     setUsername('')
     setPassword('')
 
-    dispatch(setUser(username, password))
-    navigate('/')
+    dispatch(setUser(username, password, () => navigate('/')))
   }
 
   return (
