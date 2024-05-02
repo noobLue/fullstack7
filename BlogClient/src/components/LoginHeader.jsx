@@ -2,33 +2,26 @@ import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { resetUser } from '../reducers/userReducer'
 
-const LoginHeader = ({ user }) => {
+const LoginHeader = ({ user, style }) => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   const logout = (input) => {
     dispatch(resetUser())
-
-    //navigate('/login')
   }
 
-  const logged = () => {
+  if (user) {
     return (
-      <p>
+      <a style={style} name="login">
         {user.name} logged in <button onClick={logout}>Logout</button>
-      </p>
+      </a>
     )
-  }
-
-  const notLogged = () => {
+  } else {
     return (
-      <p>
-        Not logged in <Link to="/login">Login</Link>
-      </p>
+      <Link style={style} to="/login">
+        login
+      </Link>
     )
   }
-
-  return <div>{user ? logged() : notLogged()}</div>
 }
 
 export default LoginHeader

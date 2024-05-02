@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import LoginHeader from './LoginHeader'
 
 const UserInfo = ({ user }) => {
   return (
@@ -12,10 +11,9 @@ const UserInfo = ({ user }) => {
   )
 }
 
-const UsersView = ({ users, user }) => {
+const UsersView = ({ users }) => {
   return (
     <div>
-      <LoginHeader user={user}></LoginHeader>
       <h2>Users</h2>
 
       <table>

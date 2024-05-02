@@ -11,6 +11,7 @@ import Notification from './components/Notification'
 import UsersView from './components/UsersView'
 import UserView from './components/UserView'
 import BlogView from './components/BlogView'
+import LoginHeader from './components/LoginHeader'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -31,12 +32,21 @@ const App = () => {
 
   return (
     <Router>
+      <div>
+        <Link style={{ padding: 3 }} to={'/'}>
+          blogs
+        </Link>
+        <Link style={{ padding: 3 }} to={'/users'}>
+          users
+        </Link>
+        <LoginHeader style={{ padding: 3 }} user={user}></LoginHeader>
+      </div>
       <h1>Blogs app</h1>
       <Notification />
       <Routes>
         <Route path="/login" element={<LoginForm />}></Route>
-        <Route path="/users/:id" element={<UserView users={users} user={user} />}></Route>
-        <Route path="/users" element={<UsersView users={users} user={user} />}></Route>
+        <Route path="/users/:id" element={<UserView users={users} />}></Route>
+        <Route path="/users" element={<UsersView users={users} />}></Route>
         <Route path="/blogs/:id" element={<BlogView user={user} />}></Route>
         <Route path="/" element={<Blogs user={user} />}></Route>
       </Routes>

@@ -1,7 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { putBlog, removeBlog } from '../reducers/blogReducer'
-import LoginHeader from './LoginHeader'
 import Blog from './Blog'
 
 const BlogView = ({ user }) => {
@@ -19,7 +17,6 @@ const BlogView = ({ user }) => {
 
   return (
     <div>
-      <LoginHeader user={user}></LoginHeader>
       <Blog key={blog.id} blog={blog} user={user} enableHide={false} deleteCallback={deleteCallback} />
     </div>
   )

@@ -2,9 +2,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Toggleable from './Toggleable'
 import Blog from './Blog'
 import BlogForm from './BlogForm'
-import { postBlog, putBlog, removeBlog } from '../reducers/blogReducer'
+import { postBlog } from '../reducers/blogReducer'
 import { useRef } from 'react'
-import LoginHeader from './LoginHeader'
 
 const blogSorter = (a, b) => {
   if (a.likes === b.likes) return 0
@@ -34,7 +33,6 @@ const Blogs = ({ user }) => {
 
   return (
     <div>
-      <LoginHeader user={user}></LoginHeader>
       <h2>Blogs</h2>
       <div>
         {user && renderBlogForm()}
