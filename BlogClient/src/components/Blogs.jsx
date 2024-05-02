@@ -2,10 +2,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import Toggleable from './Toggleable'
 import Blog from './Blog'
 import BlogForm from './BlogForm'
-import { initBlogs, postBlog, putBlog, removeBlog } from '../reducers/blogReducer'
-import { initUser, resetUser, setUser } from '../reducers/userReducer'
-import { useEffect, useRef } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { postBlog, putBlog, removeBlog } from '../reducers/blogReducer'
+import { useRef } from 'react'
 import LoginHeader from './LoginHeader'
 
 const blogSorter = (a, b) => {

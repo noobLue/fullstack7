@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { setUser } from '../reducers/userReducer'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
@@ -8,8 +8,6 @@ const LoginForm = () => {
   const navigate = useNavigate()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-
-  const user = useSelector(({ user }) => user)
 
   const handleLogin = (e) => {
     e.preventDefault()

@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import LoginHeader from './LoginHeader'
-import { useSelector } from 'react-redux'
 
 const UserInfo = ({ user }) => {
   return (
