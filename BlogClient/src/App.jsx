@@ -16,19 +16,20 @@ import LoginHeader from './components/LoginHeader'
 const App = () => {
   const dispatch = useDispatch()
   const user = useSelector(({ user }) => user)
+  const blogs = useSelector(({ blogs }) => blogs)
 
   const [users, setUsers] = useState([])
+  useEffect(() => {
+    dispatch(initBlogs())
+    dispatch(initUser())
+  }, [])
+
+  // update users when blogs change
   useEffect(() => {
     userService.getAll().then((users) => {
       setUsers(users)
     })
-  }, [])
-
-  useEffect(() => {
-    dispatch(initBlogs())
-
-    dispatch(initUser())
-  }, [])
+  }, [blogs])
 
   return (
     <Router>
