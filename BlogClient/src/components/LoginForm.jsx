@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { setUser } from '../reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
+import { Button, Form } from 'react-bootstrap'
+import FormValue from './FormValue'
 
 const LoginForm = () => {
   const dispatch = useDispatch()
@@ -19,29 +21,20 @@ const LoginForm = () => {
   }
 
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        username{' '}
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => {
-            setUsername(target.value)
-          }}
-        ></input>
-        password{' '}
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => {
-            setPassword(target.value)
-          }}
-        ></input>
-        <button type="submit">login</button>
-      </div>
-    </form>
+    <Form onSubmit={handleLogin}>
+      <FormValue key="username" label="username" value={username} name="BlogTitle" setValue={setUsername}></FormValue>
+      <FormValue
+        key="password"
+        label="password"
+        value={password}
+        name="BlogTitle"
+        setValue={setPassword}
+        type="password"
+      ></FormValue>
+      <Button variant="primary" type="submit">
+        login
+      </Button>
+    </Form>
   )
 }
 

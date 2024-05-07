@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { postComment, putBlog, removeBlog } from '../reducers/blogReducer'
 import FormValue from './FormValue'
+import { Button, Form, ListGroup, Nav } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
 const CommentForm = ({ blog }) => {
   const [comment, setComment] = useState('')
@@ -17,14 +19,22 @@ const CommentForm = ({ blog }) => {
   }
 
   return (
-    <form className="blogCommentForm" onSubmit={handleComment}>
-      <FormValue key="comment" label="" value={comment} name="BlogComment" setValue={setComment}></FormValue>
-      <button type="submit">submit</button>
-    </form>
+    <Form className="blogCommentForm" onSubmit={handleComment}>
+      <FormValue
+        key="comment"
+        label="Post a comment"
+        value={comment}
+        name="BlogComment"
+        setValue={setComment}
+      ></FormValue>
+      <Button variant="primary" size="sm" type="submit">
+        submit
+      </Button>
+    </Form>
   )
 }
 
-const Blog = ({ blog, user, deleteCallback, enableHide }) => {
+const Blog = ({ blog, user, deleteCallback, enableHide, useStyle }) => {
   const dispatch = useDispatch()
   const [visible, setVisible] = useState(enableHide ? false : true)
   const [buttonText, setButtonText] = useState('show')
@@ -57,10 +67,14 @@ const Blog = ({ blog, user, deleteCallback, enableHide }) => {
   const hiddenTitle = () => {
     return (
       <div>
-        <Link to={`/blogs/${blog.id}`}>
-          {blog.title} - {blog.author}
-        </Link>{' '}
-        <button onClick={handleVisibility}>{buttonText}</button>
+        <LinkContainer to={`/blogs/${blog.id}`}>
+          <Button variant="light" id="blogTitleAuthor">
+            {blog.title} - {blog.author}
+          </Button>
+        </LinkContainer>
+        <Button variant="info" size="sm" onClick={handleVisibility}>
+          {buttonText}
+        </Button>
       </div>
     )
   }
@@ -76,29 +90,49 @@ const Blog = ({ blog, user, deleteCallback, enableHide }) => {
   return (
     <div
       className="blog"
-      style={{
-        margin: '7px',
-        padding: '4px',
-        border: 'solid',
-        borderWidth: '1px',
-      }}
+      style={
+        useStyle
+          ? {
+              margin: '7px',
+              padding: '4px',
+              border: 'solid',
+              borderWidth: '1px',
+            }
+          : {}
+      }
     >
       <div className="blogTitleAuthor">{enableHide ? hiddenTitle() : normalTitle()}</div>
       <div name="ExtraBlogInfo" style={{ display: visible ? '' : 'none' }}>
         <div>{blog.url}</div>
         <div className="blogLikes">
-          likes: {blog.likes} {user && <button onClick={handleLike}>like</button>}
+          likes: {blog.likes}{' '}
+          {user && (
+            <Button variant="secondary" size="sm" onClick={handleLike}>
+              like
+            </Button>
+          )}
         </div>
         <div>uploaded by: {blog.user.name}</div>
-        {user && blog.user.user === user.username && <button onClick={handleRemoveBlog}>delete</button>}
-        <div>
-          <h3>Comments</h3>
-          <CommentForm blog={blog}></CommentForm>
-          <ul>
-            {blog.comments.map((c, i) => (
-              <li key={i}>{c}</li>
-            ))}
-          </ul>
+        {user && blog.user.user === user.username && (
+          <Button variant="danger" size="sm" onClick={handleRemoveBlog}>
+            delete
+          </Button>
+        )}
+
+        <hr />
+
+        <div style={{ margin: '5px 5px' }}>
+          <h4>Comments</h4>
+          <div style={{ margin: '10px' }}>
+            <CommentForm blog={blog}></CommentForm>
+            <ListGroup>
+              {blog.comments.map((c, i) => (
+                <ListGroup.Item variant="dark" key={i}>
+                  {c}
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </div>
         </div>
       </div>
     </div>

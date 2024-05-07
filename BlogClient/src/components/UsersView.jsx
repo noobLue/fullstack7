@@ -1,3 +1,4 @@
+import { Table } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 const UserInfo = ({ user }) => {
@@ -16,7 +17,7 @@ const UsersView = ({ users }) => {
     <div>
       <h2>Users</h2>
 
-      <table>
+      <Table striped>
         <thead>
           <tr>
             <th></th>
@@ -29,7 +30,7 @@ const UsersView = ({ users }) => {
             <UserInfo key={u.id} user={u}></UserInfo>
           ))}
         </tbody>
-      </table>
+      </Table>
     </div>
   )
 }

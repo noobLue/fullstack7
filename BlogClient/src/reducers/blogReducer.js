@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import blogService from '../services/blogs'
-import { setNotification } from './notificationReducer'
+import { setNotificationError, setNotificationSuccess } from './notificationReducer'
 
 const initialState = []
 
@@ -41,9 +41,9 @@ export const postBlog = (blog) => {
       const data = await blogService.postBlog(blog)
       dispatch(addBlog(data))
 
-      dispatch(setNotification(`Added a new blog '${blog.title}' by '${blog.author}'`))
+      dispatch(setNotificationSuccess(`Added a new blog '${blog.title}' by '${blog.author}'`))
     } catch (exception) {
-      dispatch(setNotification('Failed to add new blog'))
+      dispatch(setNotificationError('Failed to add new blog'))
     }
   }
 }
@@ -54,7 +54,7 @@ export const putBlog = (blog) => {
       const data = await blogService.putBlog(blog)
       dispatch(editBlog(data))
     } catch (exception) {
-      dispatch(setNotification('Failed to make changes to blog'))
+      dispatch(setNotificationError('Failed to make changes to blog'))
     }
   }
 }
@@ -67,9 +67,9 @@ export const removeBlog = (blog, deleteCallback) => {
 
       deleteCallback(data)
 
-      dispatch(setNotification(`Removed blog '${data.title}' by '${data.author}'`))
+      dispatch(setNotificationSuccess(`Removed blog '${data.title}' by '${data.author}'`))
     } catch (exception) {
-      dispatch(setNotification('Failed to remove blog'))
+      dispatch(setNotificationError('Failed to remove blog'))
     }
   }
 }
@@ -81,9 +81,9 @@ export const postComment = (blogId, commentObj) => {
 
       dispatch(editBlog(data))
 
-      dispatch(setNotification(`Posted comment '${commentObj.comment}' to '${data.title}'`))
+      dispatch(setNotificationSuccess(`Posted comment '${commentObj.comment}' to '${data.title}'`))
     } catch (exception) {
-      dispatch(setNotification('Failed to add comment'))
+      dispatch(setNotificationError('Failed to add comment'))
     }
   }
 }

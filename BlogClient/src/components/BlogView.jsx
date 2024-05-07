@@ -17,7 +17,7 @@ const BlogView = ({ user }) => {
 
   return (
     <div>
-      <Blog key={blog.id} blog={blog} user={user} enableHide={false} deleteCallback={deleteCallback} />
+      <Blog key={blog.id} blog={blog} user={user} enableHide={false} useStyle={true} deleteCallback={deleteCallback} />
     </div>
   )
 }

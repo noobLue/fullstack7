@@ -1,24 +1,11 @@
+import { Alert } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
 const Notification = () => {
-  const error = useSelector(({ notification }) => notification.content)
-  if (!error) return <div></div>
+  const { content, type } = useSelector(({ notification }) => notification)
+  if (!content) return <div></div>
 
-  return (
-    <div
-      style={{
-        background: 'lightgray',
-        border: '2px',
-        borderStyle: 'solid',
-        borderColor: 'gray',
-        fontSize: '20px',
-        padding: '10px',
-        margin: '5px',
-      }}
-    >
-      {error}
-    </div>
-  )
+  return <Alert variant={type}>{content}</Alert>
 }
 
 export default Notification

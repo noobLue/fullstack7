@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import FormValue from './FormValue'
+import { Button, Form } from 'react-bootstrap'
 
 const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
@@ -17,12 +18,14 @@ const BlogForm = ({ createBlog }) => {
   }
 
   return (
-    <form className="blogForm" onSubmit={handleBlog}>
+    <Form className="blogForm" onSubmit={handleBlog}>
       <FormValue key="title" label="title" value={title} name="BlogTitle" setValue={setTitle}></FormValue>
       <FormValue key="author" label="author" value={author} name="BlogAuthor" setValue={setAuthor}></FormValue>
       <FormValue key="url" label="url" value={url} name="BlogUrl" setValue={setUrl}></FormValue>
-      <button type="submit">submit</button>
-    </form>
+      <Button variant="primary" type="submit">
+        submit
+      </Button>
+    </Form>
   )
 }
 

@@ -4,6 +4,7 @@ import Blog from './Blog'
 import BlogForm from './BlogForm'
 import { postBlog } from '../reducers/blogReducer'
 import { useRef } from 'react'
+import { Table } from 'react-bootstrap'
 
 const blogSorter = (a, b) => {
   if (a.likes === b.likes) return 0
@@ -37,9 +38,17 @@ const Blogs = ({ user }) => {
       <div>
         {user && renderBlogForm()}
         <h3>Blogs list</h3>
-        {blogs.map((blog) => (
-          <Blog key={blog.id} blog={blog} user={user} deleteCallback={(data) => {}} enableHide={true} />
-        ))}
+        <Table striped>
+          <tbody>
+            {blogs.map((blog) => (
+              <tr key={blog.id}>
+                <td>
+                  <Blog blog={blog} user={user} deleteCallback={(data) => {}} enableHide={true} useStyle={false} />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
       </div>
     </div>
   )

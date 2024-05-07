@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import blogService from '../services/blogs'
 import loginService from '../services/login'
-import { setNotification } from './notificationReducer'
+import { setNotificationError } from './notificationReducer'
 
 const initialState = null
 const userStorageKey = 'loggedBlogAppUser'
@@ -44,7 +44,7 @@ export const setUser = (username, password, callback) => {
 
       callback()
     } catch (exception) {
-      dispatch(setNotification('Credentials were wrong'))
+      dispatch(setNotificationError('Credentials were wrong'))
     }
   }
 }
