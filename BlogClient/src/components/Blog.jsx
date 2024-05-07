@@ -70,6 +70,14 @@ const Blog = ({ blog, user, deleteCallback, enableHide }) => {
         </div>
         <div>uploaded by: {blog.user.name}</div>
         {user && blog.user.user === user.username && <button onClick={handleRemoveBlog}>delete</button>}
+        <div>
+          <h3>Comments</h3>
+          <ul>
+            {blog.comments.map((c, i) => (
+              <li key={i}>{c}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   )

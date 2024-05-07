@@ -438,6 +438,23 @@ describe('When some blogs exist', async () => {
       assert.strictEqual(res.body.user.user, 'root')
       assert.strictEqual(res.body.user.name, 'Anttoni')
     })
+
+    test('can post comment', async () => {
+      const blogs = await testHelper.getBlogs()
+      const blog = blogs[0]
+
+      const comment = 'This is my comment'
+
+      const res = await api
+        .post(`/api/blogs/${blog.id}/comments`)
+        //.set('Authorization', `Bearer ${await testHelper.getInitialToken()}`)
+        .send({ comment })
+        .expect(201)
+
+      const newBlogs = await testHelper.getBlogs()
+
+      assert.strictEqual(newBlogs[0].comments.length, 1)
+    })
   })
 })
 

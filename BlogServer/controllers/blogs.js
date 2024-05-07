@@ -70,4 +70,15 @@ blogsRouter.put('/:id', async (req, res) => {
   res.status(201).json(newBlog)
 })
 
+blogsRouter.post('/:id/comments', async (req, res) => {
+  const id = req.params.id
+  const { comment } = req.body
+
+  const oldBlog = await Blog.findById(id).exec()
+  oldBlog.comments.push(comment)
+  const savedBlog = await oldBlog.save()
+
+  res.status(201).json(savedBlog)
+})
+
 module.exports = blogsRouter
