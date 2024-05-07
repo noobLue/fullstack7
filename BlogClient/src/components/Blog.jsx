@@ -1,7 +1,28 @@
 import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { putBlog, removeBlog } from '../reducers/blogReducer'
+import { postComment, putBlog, removeBlog } from '../reducers/blogReducer'
+import FormValue from './FormValue'
+
+const CommentForm = ({ blog }) => {
+  const [comment, setComment] = useState('')
+  const dispatch = useDispatch()
+
+  const handleComment = async (e) => {
+    e.preventDefault()
+
+    dispatch(postComment(blog.id, { comment }))
+
+    setComment('')
+  }
+
+  return (
+    <form className="blogCommentForm" onSubmit={handleComment}>
+      <FormValue key="comment" label="" value={comment} name="BlogComment" setValue={setComment}></FormValue>
+      <button type="submit">submit</button>
+    </form>
+  )
+}
 
 const Blog = ({ blog, user, deleteCallback, enableHide }) => {
   const dispatch = useDispatch()
@@ -72,6 +93,7 @@ const Blog = ({ blog, user, deleteCallback, enableHide }) => {
         {user && blog.user.user === user.username && <button onClick={handleRemoveBlog}>delete</button>}
         <div>
           <h3>Comments</h3>
+          <CommentForm blog={blog}></CommentForm>
           <ul>
             {blog.comments.map((c, i) => (
               <li key={i}>{c}</li>

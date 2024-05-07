@@ -74,4 +74,18 @@ export const removeBlog = (blog, deleteCallback) => {
   }
 }
 
+export const postComment = (blogId, commentObj) => {
+  return async (dispatch) => {
+    try {
+      const data = await blogService.postComment(blogId, commentObj)
+
+      dispatch(editBlog(data))
+
+      dispatch(setNotification(`Posted comment '${commentObj.comment}' to '${data.title}'`))
+    } catch (exception) {
+      dispatch(setNotification('Failed to add comment'))
+    }
+  }
+}
+
 export default blogSlice.reducer

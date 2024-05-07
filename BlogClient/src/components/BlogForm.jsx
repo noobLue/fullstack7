@@ -1,18 +1,5 @@
 import { useState } from 'react'
-
-const FormValue = ({ label, name, value, setValue }) => {
-  const onChangeHelper = (func) => {
-    return ({ target }) => {
-      func(target.value)
-    }
-  }
-
-  return (
-    <div>
-      {label} <input type="text" name={name} value={value} onChange={onChangeHelper(setValue)}></input> <br />
-    </div>
-  )
-}
+import FormValue from './FormValue'
 
 const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
